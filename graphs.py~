@@ -10,8 +10,6 @@ from library import *
 
 # -------------------------------------------------------------------
 # Warmup: Writing decorator pre / postconditions
-#Precondition:
-#Postcondition:
 # -------------------------------------------------------------------
 
 def myLen(lst):

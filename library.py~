@@ -30,7 +30,7 @@ def forallHelper(lst,f,i):
 
 # Does f hold for every element of lst
 def forall(lst, f):
-    return forallHelper(lst,f,0)
+    forallHelper(lst,f,0)
 
 #
 # Decorator-based pre/postconditions
