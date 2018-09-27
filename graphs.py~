@@ -10,6 +10,8 @@ from library import *
 
 # -------------------------------------------------------------------
 # Warmup: Writing decorator pre / postconditions
+#Precondition:
+#Postcondition:
 # -------------------------------------------------------------------
 
 def myLen(lst):
@@ -50,7 +52,7 @@ def looksLikeColorAssignment(colorAsn):
     return len(colorAsn) == 2 and type(colorAsn) == type(1) and type(colorAsn[2]) == type("")
 
 def looksLikeColoring(coloring):
-    forall(coloring, looksLikeColorAssignment)
+    return forall(coloring, looksLikeColorAssignment)
 
 # 
 # Tasks 3, 4, and 5

@@ -25,7 +25,7 @@ def contains(lst, x): return x in lst
 
 # Helper function for forall
 def forallHelper(lst,f,i):
-    if (i >= len(lst)): return False
+    if (i >= len(lst)): return True
     else: return f(lst[i]) and forallHelper(lst,f,i+1)
 
 # Does f hold for every element of lst
