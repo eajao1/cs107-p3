@@ -269,7 +269,12 @@ def setIntersection(lst1, lst2):
 # Calculate whether or not two sets, `lst1` and `lst2`, are equal or
 # not.
 def setEquals(lst1, lst2):
-    raise UnimplementedExeception
+    if len(lst1) != len(lst2):
+        return False
+    if isEmpty(lst1) and isEmpty(lst2):
+        return True
+    else:
+        return head(lst1) in lst2 and setEquals(tail(lst1),tail(lst2))
 
 # -------------------------------------------------------------------
 # Bipartite checking
