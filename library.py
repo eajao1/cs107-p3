@@ -32,6 +32,15 @@ def forallHelper(lst,f,i):
 def forall(lst, f):
     return forallHelper(lst,f,0)
 
+# Helper function for forall
+def existsHelper(lst,f,i):
+    if (i >= len(lst)): return False
+    else: return f(lst[i]) or existsHelper(lst,f,i+1)
+
+# Does f hold for every element of lst
+def exists(lst, f):
+    return existsHelper(lst,f,0)
+
 #
 # Decorator-based pre/postconditions
 #
