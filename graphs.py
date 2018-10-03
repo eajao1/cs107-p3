@@ -74,7 +74,7 @@ def getNeighbors(g, n):
     if isEmpty(g[1]): #If the list of edges is empty, return an empty list. There are no immediate neighbors.
         return []
     else:
-        store_lst = getNeighbors([g[0], g[1][1:]],n) #otherwise, create a list to store the set of immediate set neighbors of the rest of the list.
+        store_lst = getNeighbors([g[0], g[1][1:]],n) #otherwise, create a list to store the set of immediate neighbors of the rest of the list.
         if n == g[1][0][0]:                          #if the node matches the first element of the first node...
             store_lst.append(g[1][0][1])             #add the corresponding edge to the list. This is its neighbor.
         if n == g[1][0][1]:                          #if the node matches the second element of the first node...
@@ -170,7 +170,7 @@ def isIn(lst1, lst2):
     if isEmpty(lst1): #if lst1 is empty, return True; everything in lst1 is in lst2
         return True
     else:             #otherwise, return True if the first element in lst 1 is in lst2 AND the rest of lst1 is in the rest of lst2
-       return head(lst1) in lst2 and isIn(tail(lst1), tail(lst2)) 
+       return head(lst1) in lst2 and isIn(tail(lst1), lst2) 
 
 # Task 3
 # Return the number of colors used for a given coloring
@@ -221,11 +221,23 @@ def getColor(coloring, n):
 # END OF P3 / BEGIN P4
 # -------------------------------------------------------------------
 
+### I am doctesting all my helper functions, but extending tests.py for the other functions.
+
 # Task 6
 # Is a coloring `coloring` valid for a graph `g`
 # precondition(for all g, coloring: isConsistent(g, coloring))
 def isValidColoring(g, coloring):
-    raise  UnimplementedExeception
+    precondition(type(coloring) == type([]))
+    
+    if isEmpty(g[1]): #if the edges of the graph are empty, return False
+        return True
+    else:            #otherwise, check if the colorings of two neighbors are the same.
+                     #We do this by checking the edges of the graph.
+        if getColor(coloring, g[1][0][0]) == getColor(coloring, g[1][0][1]):
+            return False #if the neighbors are the same, return false.
+        else:
+            return isValidColoring([g[0],g[1][1:]], coloring) #if not the same, check validity on the rest of the edges in the graph.
+            
 
 # Check whether `coloring` is a valid k-coloring of `g`
 def isValidKColoring(g, coloring, k):
@@ -269,13 +281,20 @@ def setIntersection(lst1, lst2):
 # Calculate whether or not two sets, `lst1` and `lst2`, are equal or
 # not.
 def setEquals(lst1, lst2):
-    if len(lst1) != len(lst2):
-        return False
-    if isEmpty(lst1) and isEmpty(lst2):
-        return True
-    else:
-        return head(lst1) in lst2 and setEquals(tail(lst1),tail(lst2))
+    precondition(type(lst1) == type([]))
+    precondition(type(lst2) == type([]))
 
+    if len(lst1) != len(lst2): #if the lists are not the same length, return false. The set is not equal.
+        return False                
+    if isEmpty(lst1) and isEmpty(lst2):       #if they are both empty, return true.
+        return True
+    if isIn(lst1, lst2) and isIn(lst2, lst1): #otherwise, if everything in lst1 is in lst2
+        return True                           #and everything in lst2 is in lst1, return True
+    else:
+        return False                          #if not, return False
+#Please note, this required a slight adjustment of isIn from P3 to make it work closer to
+#how I wanted.
+    
 # -------------------------------------------------------------------
 # Bipartite checking
 # -------------------------------------------------------------------
@@ -289,7 +308,16 @@ def setEquals(lst1, lst2):
 # I invite you to write a more precise precondition that states this
 # mathematically
 def calculateNextSet(g,A,B):
-    raise UnimplementedExeception
+    precondition(type(A) == type([]))
+    precondition(type(B) == type([]))
+                 
+    if isEmpty(A): #if the set of A is empty, then return the set of B
+        return B
+    else:
+        y = calculateNextSet(g, A[1:], B) #otherwise, calculate the next set of the rest of A
+        x = setUnion(getNeighbors(g, A[0]), B) #get the union of the neighbors of first element in set A and the set of B
+        return setUnion(x,y) #return the union
+    
 
 # Using `calculateNextSet`, iterate the sets A and B until no more
 # exploration is possible: at each step of the way, find A's neighbors
@@ -307,6 +335,7 @@ def iterateFrontier(g,A,B):
 def start(graph):
     return (graph[0][0], [])
 
+#
 # Check whether or not a graph is bipartite, using the other functions
 # defined so far
 def calculateBipartite(graph):

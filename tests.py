@@ -48,25 +48,43 @@ class TestP3(unittest.TestCase):
     def test_isConsistent(self):
         mygraph = ([1,2,3,4,5], [(1,1), (1,2), (1,3), (2,5), (3,4)])
         mycoloring = [(1,"red"),(1,"blue"),(2,"green"),(2, "blue"), (3,"pink"), (4,"purple"),(5,"white")]
+
         self.assertEqual(isConsistent(graph1, coloring1), True)
         self.assertEqual(isConsistent(graph1, coloring2), False)
         self.assertEqual(isConsistent(mygraph, mycoloring), False)
 
     def test_getColor(self):
         mycoloring = [(1,"red"),(1,"blue"),(2,"green"),(2, "blue"), (3,"pink"), (4,"purple"),(5,"white")]
+
         self.assertEqual(getColor(coloring1, 1), "red")
         self.assertEqual(getColor(coloring1, 2), "blue")
         self.assertEqual(getColor(mycoloring, 4), "purple")
 
     def test_isValidColoring(self):
+        mygraph = ([1,2,3,4,5], [(1,1), (1,2), (1,3), (2,5), (3,4)])
+        mycoloring = [(1,"red"),(1,"blue"),(2,"green"),(2, "blue"), (3,"pink"), (4,"purple"),(5,"white")]
+
+        mygraph2 = ([1,2,3,4], [(1,2), (1,3), (2,4)])
+        mycoloring2 = [(1,"red"),(2, "blue"), (3,"pink"), (4,"purple")]
+        
         self.assertEqual(isValidColoring(graph1, coloring1), False)
+        self.assertEqual(isValidColoring(graph1, coloring1), False)
+        self.assertEqual(isValidColoring(mygraph, mycoloring), False)
+        self.assertEqual(isValidColoring(mygraph2, mycoloring2), True)
         
     def test_setEquals(self):
         self.assertEqual(setEquals([1], [1]), True)
         self.assertEqual(setEquals([], []), True)
         self.assertEqual(setEquals([2], [2]), True)
+        self.assertEqual(setEquals([2,1], [1,2]), True)
+        self.assertEqual(setEquals([2,2], [2]), False)
+        self.assertEqual(setEquals([2,2,3], [2,3]), False)
     
     def test_calculateNextSet(self):
+        mygraph = ([1,2,3,4], [(1,2), (1,3), (2,4), (3,4)])
+        A = [1,2]
+        B = [4,5]
         self.assertEqual(setEquals(calculateNextSet(graph1, [1], []), [1,2]), True)
+        self.assertEqual(setEquals(calculateNextSet(mygraph, A, B), [1,2,3,4,5]), True)
 
 unittest.main()
